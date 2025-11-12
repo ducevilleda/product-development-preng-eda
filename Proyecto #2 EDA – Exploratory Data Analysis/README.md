@@ -23,3 +23,17 @@ git branch -M main
 git remote add origin <URL_DE_TU_REPO>
 git push -u origin main
 ```
+
+# Proyecto 3 - Feature Engineering
+
+**IMPORTANTE:**
+Esta fase se desarrolló en branch `daniel-tarea3`.
+Ejecutar `git checkout daniel-tarea3` antes de correr los notebooks o modificar los datos procesados.
+
+## Datos procesados
+* Los datasets generados tras el proceso de ingeniería de características se guardan en `data/processed/`.
+
+* El archivo principal es `feature_engineered.csv`, producido automáticamente por el notebook  
+`notebooks/02_feature_exploration.ipynb`.
+
+Si no existe, el notebook lo regenerará aplicando imputaciones, winsorización, transformación Yeo-Johnson y escalado estándar.
