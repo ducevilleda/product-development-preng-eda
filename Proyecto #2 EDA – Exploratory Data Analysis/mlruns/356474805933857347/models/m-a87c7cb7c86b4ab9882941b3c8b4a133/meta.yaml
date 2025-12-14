@@ -1,0 +1,12 @@
+artifact_location: file:C:/Users/dmbat/OneDrive/Desktop/Maestría 2025/Product Development
+  Preng/Proyecto /356474805933857347/models/m-a87c7cb7c86b4ab9882941b3c8b4a133/artifacts#2
+  EDA – Exploratory Data Analysis/mlruns
+creation_timestamp: 1765668600495
+experiment_id: '356474805933857347'
+last_updated_timestamp: 1765668613417
+model_id: m-a87c7cb7c86b4ab9882941b3c8b4a133
+model_type: null
+name: model
+source_run_id: 85cc5c622e0c4eb395f4953d7e0ddd56
+status: 3
+status_message: null

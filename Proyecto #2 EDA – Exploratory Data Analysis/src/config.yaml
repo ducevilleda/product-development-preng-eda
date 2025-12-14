@@ -1,0 +1,62 @@
+# Rutas
+data:
+  raw_dir: "data/raw"
+  train_file: "train.csv"
+  test_file: "test.csv"
+  processed_dir: "data/processed"
+  train_processed: "train_processed.csv"
+  valid_processed: "valid_processed.csv"
+  test_processed: "test_processed.csv"
+
+# Columna objetivo y claves
+target:
+  name: "sales"
+
+keys:
+  date_col: "date"
+  store_col: "store_nbr"
+  family_col: "family"
+
+# Parámetros de time series
+time_series:
+  valid_months: 1          # Último mes como validación
+  freq: "D"
+
+# Features categóricas
+categorical_features:
+  - "store_nbr"
+  - "family"
+  - "day_of_week"
+  - "month"
+  - "year"
+
+# Parámetros de LightGBM
+model:
+  name: "lgbm_store_family"
+  params:
+    objective: "regression"
+    metric: "rmse"
+    boosting_type: "gbdt"
+    learning_rate: 0.05
+    num_leaves: 64
+    max_depth: -1
+    feature_fraction: 0.9
+    bagging_fraction: 0.8
+    bagging_freq: 1
+    lambda_l1: 0.0
+    lambda_l2: 0.0
+    min_child_samples: 20
+    n_estimators: 2000
+    verbosity: -1
+  early_stopping_rounds: 100
+
+# MLflow
+mlflow:
+  experiment_name: "store_sales_lgbm_v2"
+  tracking_uri: "sqlite:///C:/mlflow_store/mlflow.db"
+  artifact_root: "file:///C:/mlflow_store/mlruns"
+
+
+# Ruta donde se guardará el modelo final
+output:
+  model_path: "models/model_lgbm.pkl"
