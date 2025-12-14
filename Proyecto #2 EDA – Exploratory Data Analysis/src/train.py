@@ -42,11 +42,11 @@ def _prepare_mlflow_storage(tracking_uri: str) -> None:
         db_part = parts[1] if len(parts) > 1 else ""
         db_part = db_part.lstrip("/")
 
-        # si la ruta es local tipo sqlite:///mlruns.db
+        
         if db_part.startswith("///"):
             db_path = db_part[3:]
         else:
-            # si no es claro, no tocamos nada
+            
             return
 
         db_dir = os.path.dirname(db_path)
@@ -70,7 +70,7 @@ def load_processed_data() -> Tuple[pd.DataFrame, pd.DataFrame]:
     train_df = pd.read_csv(train_path, parse_dates=[date_col])
     valid_df = pd.read_csv(valid_path, parse_dates=[date_col])
 
-    # Recuperar categorías al leer CSV (si aplica)
+    # Recuperar categorías al leer CSV 
     family_col = config["keys"].get("family_col")
     if family_col and family_col in train_df.columns:
         train_df[family_col] = train_df[family_col].astype("category")
@@ -102,8 +102,7 @@ def _build_schema(X_train: pd.DataFrame) -> dict:
     categories_map = {}
 
     for c in feature_columns:
-        # Nota: is_categorical_dtype está deprecated en versiones nuevas,
-        # pero lo dejamos porque tu proyecto lo usa; funciona igual.
+        
         if pd.api.types.is_categorical_dtype(X_train[c]):
             categorical_columns.append(c)
             categories_map[c] = list(X_train[c].cat.categories)
@@ -145,12 +144,12 @@ def train():
         if X_valid[c].dtype == "object":
             X_valid[c] = X_valid[c].astype("category")
 
-    # IMPORTANTE: alinear categorías del valid con las del train
+    # alinear categorías del valid con las del train
     for c in X_train.columns:
         if pd.api.types.is_categorical_dtype(X_train[c]) and pd.api.types.is_categorical_dtype(X_valid[c]):
             X_valid[c] = X_valid[c].cat.set_categories(X_train[c].cat.categories)
 
-    # ===== 4) Índices de columnas categóricas (si config lo trae) =====
+    # ===== 4) Índices de columnas categóricas  =====
     categorical_features = config.get("categorical_features", [])
     cat_idxs = [X_train.columns.get_loc(c) for c in categorical_features if c in X_train.columns]
 
@@ -169,7 +168,7 @@ def train():
         os.path.join(os.path.dirname(output_path), "model_schema.json")
     )
 
-    # opcional: guardar métricas en un json dentro de "models/"
+    # guardar métricas en un json dentro de "models/"
     metrics_path = os.path.join(os.path.dirname(output_path), "metrics.json")
 
     with mlflow.start_run(run_name=model_cfg.get("name", "lgbm_run")):
@@ -205,7 +204,7 @@ def train():
         print(f"📌 Métricas guardadas en: {metrics_path}")
 
         # ===== 7) Guardar modelo y schema =====
-        # MLflow (no queremos que te rompa el entrenamiento si falla)
+        
         try:
             mlflow.lightgbm.log_model(model, artifact_path="model")
         except Exception as e:

@@ -27,13 +27,13 @@ from datetime import datetime, timezone
 
 @app.post("/predict")
 def make_prediction(data: PredictionRequest):
-    preds = predict(data)  # o como lo tengas
+    preds = predict(data)  
     now = datetime.now(timezone.utc).isoformat()
 
     return {
         "predictions": [float(preds[0])],
-        "model_metrics": load_metrics(),   # función que leerás del JSON/archivo
-        "model_params": load_params(),     # del config.yaml
+        "model_metrics": load_metrics(),   
+        "model_params": load_params(),    
         "now": now
     }
 

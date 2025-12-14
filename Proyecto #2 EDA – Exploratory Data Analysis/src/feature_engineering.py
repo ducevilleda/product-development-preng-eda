@@ -134,6 +134,6 @@ def make_features() -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
 
 
 if __name__ == "__main__":
-    # Permite ejecutar: python -m src.feature_engineering
+    # Para ejecutar: python -m src.feature_engineering
     make_features()
     print("✅ Feature engineering completado y datos guardados.")

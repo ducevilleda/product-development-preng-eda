@@ -16,11 +16,11 @@ def align_with_schema(X: pd.DataFrame, schema: dict) -> pd.DataFrame:
     cols = schema["feature_columns"]
     X = X.reindex(columns=cols)
 
-    # 2) categorías EXACTAS (evita: train and valid dataset categorical_feature do not match)
+    # 2) categorías EXACTAS 
     categories_map = schema.get("categories_map", {})
     for c, cats in categories_map.items():
         if c in X.columns:
-            # si viene un valor fuera de catálogo, mejor fallar claro (422)
+            
             bad = ~X[c].isin(cats) & X[c].notna()
             if bad.any():
                 bad_vals = X.loc[bad, c].unique().tolist()
@@ -28,7 +28,7 @@ def align_with_schema(X: pd.DataFrame, schema: dict) -> pd.DataFrame:
 
             X[c] = pd.Categorical(X[c], categories=cats)
 
-    # 3) NaNs: LightGBM aguanta NaN, pero si quieres puedes fill aquí
+    # 3) NaNs: LightGBM 
     return X
 
 
@@ -60,12 +60,11 @@ def predict(data: dict):
     # armar DataFrame base
     df = pd.DataFrame([data])
 
-    # parse date si existe en features (depende de tu feature engineering)
+    
     if "date" in df.columns:
         df["date"] = pd.to_datetime(df["date"])
 
-    # ⚠️ Si tú aquí haces feature engineering, hazlo antes de alinear
-    # df = make_features_for_inference(df)  # si tienes una función así
+    
 
     model, schema = load_model_and_schema()
 
